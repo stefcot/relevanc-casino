@@ -1,32 +1,44 @@
 import { Action, createReducer, Draft } from '@reduxjs/toolkit'
-import { fetchIdentities } from '@Redux/identities/actions'
+import { fetchIdentity } from '@Redux/identities/actions'
 import type { Identity, IdentityState } from '@Redux/identities/types'
 
 const initialState: IdentityState = {
-  list: [],
+  identities: [],
   status: 'loading',
+  listMode: false,
 }
 
 const identitiesReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchIdentities.pending, (state) => {
+    .addCase(fetchIdentity.pending, (state) => {
       state.status = 'loading'
     })
-    .addCase(fetchIdentities.fulfilled, (state: Draft<IdentityState>) => {
+    .addCase(fetchIdentity.fulfilled, (state: Draft<IdentityState>) => {
       state.status = 'success'
     })
-    .addCase(fetchIdentities.rejected, (state: Draft<IdentityState>) => {
+    .addCase(fetchIdentity.rejected, (state: Draft<IdentityState>) => {
       state.status = 'failed'
     })
+    .addCase(
+      'identities/setListMode',
+      (
+        state: Draft<IdentityState>,
+        action: Action<'identities/setListMode'> & {
+          payload: { listMode: boolean }
+        }
+      ) => {
+        state.listMode = action.payload.listMode
+      }
+    )
     .addCase(
       'identities/getIdentities',
       (
         state: Draft<IdentityState>,
         action: Action<'identities/getIdentities'> & {
-          payload: { list: Identity[] }
+          payload: { identities: Identity[] }
         }
       ) => {
-        state.list = [...state.list, ...action.payload.list]
+        state.identities = [...state.identities, ...action.payload.identities]
       }
     )
     .addCase(
@@ -35,7 +47,9 @@ const identitiesReducer = createReducer(initialState, (builder) => {
         state: Draft<IdentityState>,
         action: Action<'identities/removeIdentity'> & { payload: string }
       ) => {
-        state.list = state.list.filter((m) => m.id !== action.payload)
+        state.identities = state.identities.filter(
+          (m) => m.id !== action.payload
+        )
       }
     )
 })

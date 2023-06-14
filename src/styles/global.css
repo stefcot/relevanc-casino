@@ -26,3 +26,11 @@ body {
   rgb(var(--background-start-rgb));
 }
 
+#sortboxmenu {
+  display: none;
+}
+
+#sortbox:checked ~ #sortboxmenu {
+  display: block;
+}
+

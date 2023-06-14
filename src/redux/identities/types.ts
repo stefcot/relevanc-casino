@@ -1,12 +1,13 @@
 export type Identity = {
   id: string
-  userName: string
+  username: string
   email: string
-  birthDate: number
+  birthdate: string
   color: boolean
 }
 
 export type IdentityState = {
-  list: Identity[]
+  identities: Identity[]
   status: 'loading' | 'failed' | 'success'
+  listMode: boolean
 }

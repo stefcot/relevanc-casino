@@ -1,10 +1,11 @@
 import React, { FC } from 'react'
-import Identities from '@Components/Identities/Identities'
+import Identities from '@Components/Identities'
+import Layout from '@Components/Layout'
 
 const App: FC = () => (
-  <main>
+  <Layout>
     <Identities />
-  </main>
+  </Layout>
 )
 
 export default App

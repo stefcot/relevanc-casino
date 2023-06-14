@@ -1,19 +1,26 @@
 import React, { FC } from 'react'
+
 import { ReactComponent as BinIcon } from '@Svg/bin.svg'
+import Button from '@Components/Button'
 
 export type DeleteButtonProps = {
+  className?: string
   handleDeleteClick: (id: string) => void
   id: string
 }
 
-const DeleteButton: FC<DeleteButtonProps> = ({ handleDeleteClick, id }) => (
-  <button
+const DeleteButton: FC<DeleteButtonProps> = ({
+  className,
+  handleDeleteClick,
+  id,
+}) => (
+  <Button
     aria-label="Remove identity"
+    className={className}
     onClick={() => handleDeleteClick(id)}
-    type="button"
   >
-    <BinIcon className="w-[32px] fill-amber-50" />
-  </button>
+    <BinIcon className="w-[24px] fill-slate-700" />
+  </Button>
 )
 
 export default DeleteButton

@@ -1,28 +1,25 @@
 import React, { FC } from 'react'
 
-import type { Identity } from '@Redux/identities/types'
-
-import { useAppSelector, useAppDispatch } from '@Redux/hooks'
-import { getAllIdentities } from '@Redux/identities/selectors'
-import { fetchIdentities } from '@Redux/identities/actions'
-
-import Grid from '@Components/Grid/Grid'
+import IdentityCard from '@Components/IdentityCard'
+import { useIdentitiesContext } from '@Components/IdentitiesProvider/IdentitiesProvider'
+import { useAppSelector } from '@Redux/hooks'
+import { getListMode } from '@Redux/identities/selectors'
+import clsx from 'clsx'
 
 const Identities: FC = () => {
-  const identities = useAppSelector<Identity[]>(getAllIdentities)
-  const dispatch = useAppDispatch()
+  const identities = useIdentitiesContext()
+  const listMode = useAppSelector(getListMode)
 
   return (
-    <div>
-      <button
-        onClick={() => {
-          dispatch(fetchIdentities())
-        }}
-        type="button"
-      >
-        Add truc
-      </button>
-      <Grid identities={identities} />
+    <div
+      className={clsx(
+        'flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[16px] w-full',
+        { '!flex !flex-col': listMode }
+      )}
+    >
+      {identities.map((identity) => (
+        <IdentityCard key={identity.id} identity={identity} />
+      ))}
     </div>
   )
 }
