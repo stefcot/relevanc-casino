@@ -12,3 +12,8 @@ export const getListMode = createSelector(
   getIdentityState,
   (state: IdentityState) => state.listMode
 )
+
+export const getPendingFetches = createSelector(
+  getIdentityState,
+  (state: IdentityState) => state.pendingFetches
+)

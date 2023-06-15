@@ -1,23 +1,40 @@
 import { Action, createReducer, Draft } from '@reduxjs/toolkit'
-import { fetchIdentity } from '@Redux/identities/actions'
+import { fetchIdentities, fetchIdentity } from '@Redux/identities/actions'
 import type { Identity, IdentityState } from '@Redux/identities/types'
 
 const initialState: IdentityState = {
   identities: [],
-  disabled: 'loading',
+  pendingFetches: [],
   listMode: false,
 }
 
 const identitiesReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchIdentity.pending, (state) => {
-      state.disabled = 'loading'
+      state.pendingFetches = [...state.pendingFetches, 'addingOneItem']
     })
     .addCase(fetchIdentity.fulfilled, (state: Draft<IdentityState>) => {
-      state.disabled = 'success'
+      state.pendingFetches = state.pendingFetches.filter(
+        (item) => item !== 'addingOneItem'
+      )
     })
     .addCase(fetchIdentity.rejected, (state: Draft<IdentityState>) => {
-      state.disabled = 'failed'
+      state.pendingFetches = state.pendingFetches.filter(
+        (item) => item !== 'addingOneItem'
+      )
+    })
+    .addCase(fetchIdentities(5).pending, (state) => {
+      state.pendingFetches = [...state.pendingFetches, 'addingFiveItem']
+    })
+    .addCase(fetchIdentities(5).fulfilled, (state: Draft<IdentityState>) => {
+      state.pendingFetches = state.pendingFetches.filter(
+        (item) => item !== 'addingFiveItem'
+      )
+    })
+    .addCase(fetchIdentities(5).rejected, (state: Draft<IdentityState>) => {
+      state.pendingFetches = state.pendingFetches.filter(
+        (item) => item !== 'addingFiveItem'
+      )
     })
     .addCase(
       'identities/setListMode',
@@ -31,10 +48,10 @@ const identitiesReducer = createReducer(initialState, (builder) => {
       }
     )
     .addCase(
-      'identities/getIdentities',
+      'identities/addIdentities',
       (
         state: Draft<IdentityState>,
-        action: Action<'identities/getIdentities'> & {
+        action: Action<'identities/addIdentities'> & {
           payload: { identities: Identity[] }
         }
       ) => {

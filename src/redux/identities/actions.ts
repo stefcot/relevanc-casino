@@ -5,8 +5,8 @@ import axios from 'axios'
 const identityFetcher = () =>
   axios.get('https://exercise-1-backend-dvdomulgfq-ew.a.run.app/user')
 
-export const getIdentities = createAction(
-  'identities/getIdentities',
+export const addIdentities = createAction(
+  'identities/addIdentities',
   (identities: Identity[]) => ({
     payload: {
       identities,
@@ -33,11 +33,11 @@ export const fetchIdentities = (calls: number) =>
 
     const identities = responses.map((response) => {
       const identity = response.data
-      identity.id = Math.floor(Math.random() * 100)
+      identity.id = Math.floor(Math.random() * 1000000)
       return identity
     })
 
-    thunkAPI.dispatch(getIdentities(identities))
+    thunkAPI.dispatch(addIdentities(identities))
   })
 
 export const fetchIdentity = createAsyncThunk(
@@ -45,8 +45,8 @@ export const fetchIdentity = createAsyncThunk(
   async (_, thunkAPI) => {
     const response = await identityFetcher()
     const identity = response.data
-    identity.id = Date.now().toString()
-    thunkAPI.dispatch(getIdentities([identity]))
+    identity.id = Math.floor(Math.random() * 1000000)
+    thunkAPI.dispatch(addIdentities([identity]))
     return response
   }
 )

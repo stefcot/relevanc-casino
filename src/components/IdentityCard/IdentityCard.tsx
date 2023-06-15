@@ -20,6 +20,22 @@ const IdentityCard: FC<CardProps> = ({ className, identity, listMode }) => {
 
   const handleDeleteClick = (id: string) => dispatch(removeIdentity(id))
 
+  const pad = (
+    value: string | number,
+    width: number,
+    paddedString?: string
+  ) => {
+    const string = paddedString || '0'
+    const stringToDisplay = value.toString()
+    return stringToDisplay.length >= width
+      ? value
+      : new Array(width - stringToDisplay.length + 1).join(string) + value
+  }
+
+  const cardStyle = (() => ({
+    backgroundColor: `#${pad(identity.color, 6)}`,
+  }))()
+
   return (
     <article
       className={clsx(
@@ -27,7 +43,7 @@ const IdentityCard: FC<CardProps> = ({ className, identity, listMode }) => {
         { '!flex-row !items-center': listMode },
         className
       )}
-      style={{ backgroundColor: `#${identity.color}` }}
+      style={cardStyle}
     >
       <section
         className={clsx(
@@ -39,7 +55,7 @@ const IdentityCard: FC<CardProps> = ({ className, identity, listMode }) => {
       >
         <h3
           className={clsx(
-            'font-medium text-md text-gray-500 mix-blend-plus-lighter truncate w-1/3 md:w-full',
+            'font-medium text-md text-gray-400 mix-blend-plus-lighter truncate w-1/3 md:w-full',
             {
               '!w-1/3': listMode,
             }
@@ -49,7 +65,7 @@ const IdentityCard: FC<CardProps> = ({ className, identity, listMode }) => {
         </h3>
         <span
           className={clsx(
-            'text-sm text-gray-500 mix-blend-plus-lighter truncate mb-0 w-1/3 md:mb-2 md:w-full',
+            'text-sm text-gray-400 mix-blend-plus-lighter truncate mb-0 w-1/3 md:mb-2 md:w-full',
             {
               '!mb-0 !w-1/3': listMode,
             }
@@ -59,7 +75,7 @@ const IdentityCard: FC<CardProps> = ({ className, identity, listMode }) => {
         </span>
         <span
           className={clsx(
-            'text-right w-1/3 pr-4 md:text-left md:w-auto md:pr-0 text-sm text-gray-500 mix-blend-plus-lighter truncate md:w-full',
+            'text-right w-1/3 pr-4 md:text-left md:w-auto md:pr-0 text-sm text-gray-400 mix-blend-plus-lighter truncate md:w-full',
             {
               '!text-right !w-1/3 !pr-4': listMode,
             }

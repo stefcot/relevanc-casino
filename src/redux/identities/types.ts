@@ -3,11 +3,11 @@ export type Identity = {
   username: string
   email: string
   birthdate: string
-  color: boolean
+  color: string
 }
 
 export type IdentityState = {
   identities: Identity[]
-  disabled: 'loading' | 'failed' | 'success'
+  pendingFetches: string[]
   listMode: boolean
 }

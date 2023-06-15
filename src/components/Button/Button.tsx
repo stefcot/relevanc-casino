@@ -1,17 +1,21 @@
-import React, { FC, PropsWithChildren } from 'react'
+import React, { ButtonHTMLAttributes, FC, PropsWithChildren } from 'react'
 import clsx from 'clsx'
+import Spinner from '@Components/Spinner/Spinner'
 
-export type ButtonProps = {
+export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string
   inverted?: boolean
   onClick: () => void
+  loading?: boolean
 }
 
 const Button: FC<PropsWithChildren<ButtonProps>> = ({
   children,
   className,
   inverted,
+  loading,
   onClick,
+  ...rest
 }) => (
   <button
     className={clsx(
@@ -19,13 +23,22 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
       {
         '!bg-orange-300 !text-orange-200 dark:!text-sky-900 dark:!bg-white':
           inverted,
+        'opacity-50': rest.disabled,
       },
       className
     )}
     onClick={onClick}
     type="button"
+    {...rest}
   >
-    <span className="truncate">{children}</span>
+    <span
+      className={clsx('truncate', {
+        'mr-2': loading,
+      })}
+    >
+      {children}
+    </span>
+    {loading && <Spinner className="fill-white" />}
   </button>
 )
 

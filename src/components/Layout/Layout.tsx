@@ -15,7 +15,7 @@ import Switch from '@Components/Switch'
 import Navbar from '@Components/Navbar'
 import Button from '@Components/Button'
 
-import { getListMode } from '@Redux/identities/selectors'
+import { getListMode, getPendingFetches } from '@Redux/identities/selectors'
 
 import SortDropdown from '@Components/SortDropdown'
 
@@ -25,6 +25,7 @@ import useIdentities from '@Hooks/useIdentities'
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch()
   const listMode = useAppSelector<boolean>(getListMode)
+  const pendingFetches = useAppSelector<string[]>(getPendingFetches)
   const [darkMode, setDarkMode] = useState(true)
   const [sortMode, setSortMode] = useState<string | undefined>(undefined)
   const identities = useIdentities(sortMode)
@@ -58,6 +59,8 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
           <Navbar className="!flex-col-reverse md:!flex-row">
             <div className="flex space-x-2 mr-auto">
               <Button
+                disabled={pendingFetches.includes('addingOneItem')}
+                loading={pendingFetches.includes('addingOneItem')}
                 onClick={() => {
                   dispatch(fetchIdentity())
                 }}
@@ -65,6 +68,8 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                 Add Identity
               </Button>
               <Button
+                disabled={pendingFetches.includes('addingFiveItem')}
+                loading={pendingFetches.includes('addingFiveItem')}
                 onClick={() => {
                   dispatch(fetchIdentities(5)())
                 }}
