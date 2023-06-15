@@ -1,20 +1,58 @@
-import { createContext, FC, PropsWithChildren, useContext } from 'react'
+import {
+  createContext,
+  FC,
+  PropsWithChildren,
+  useContext,
+  useMemo,
+} from 'react'
 import { Identity } from '@Redux/identities/types'
+import { useAppSelector } from '@Redux/hooks'
+import {
+  getUnsortedIdentities,
+  getIdentitiesSortedByBirthday,
+  getIdentitiesSortedByName,
+} from '@Redux/identities/selectors'
 
 export type IdentitiesProviderProps = {
-  identities: Identity[]
+  sortMode?: string
 }
 
 const IdentitiesContext = createContext<Identity[]>([])
 
 const IdentitiesProvider: FC<PropsWithChildren<IdentitiesProviderProps>> = ({
-  identities,
   children,
-}) => (
-  <IdentitiesContext.Provider value={identities}>
-    {children}
-  </IdentitiesContext.Provider>
-)
+  sortMode,
+}) => {
+  const unsortedIdentities = useAppSelector<Identity[]>(getUnsortedIdentities)
+  const identitiesSortedByName = useAppSelector<Identity[]>(
+    getIdentitiesSortedByName
+  )
+  const identitiesSortedByBirthday = useAppSelector<Identity[]>(
+    getIdentitiesSortedByBirthday
+  )
+
+  const identities = useMemo(() => {
+    switch (sortMode) {
+      case 'name':
+        return identitiesSortedByName
+      case 'birthday':
+        return identitiesSortedByBirthday
+      default:
+        return unsortedIdentities
+    }
+  }, [
+    sortMode,
+    unsortedIdentities,
+    identitiesSortedByName,
+    identitiesSortedByBirthday,
+  ])
+
+  return (
+    <IdentitiesContext.Provider value={identities}>
+      {children}
+    </IdentitiesContext.Provider>
+  )
+}
 
 export default IdentitiesProvider
 

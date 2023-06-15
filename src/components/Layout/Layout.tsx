@@ -20,7 +20,6 @@ import { getListMode, getPendingFetches } from '@Redux/identities/selectors'
 import SortDropdown from '@Components/SortDropdown'
 
 import IdentitiesProvider from '@Components/IdentitiesProvider'
-import useIdentities from '@Hooks/useIdentities'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch()
@@ -28,7 +27,6 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
   const pendingFetches = useAppSelector<string[]>(getPendingFetches)
   const [darkMode, setDarkMode] = useState(true)
   const [sortMode, setSortMode] = useState<string | undefined>(undefined)
-  const identities = useIdentities(sortMode)
 
   const onMenuItemClick = (id: string) => {
     setSortMode(id)
@@ -98,7 +96,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
               </div>
             </div>
           </Navbar>
-          <IdentitiesProvider identities={identities}>
+          <IdentitiesProvider sortMode={sortMode}>
             {children}
           </IdentitiesProvider>
         </main>
