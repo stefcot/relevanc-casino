@@ -15,7 +15,7 @@ const Button: FC<PropsWithChildren<ButtonProps>> = ({
 }) => (
   <button
     className={clsx(
-      'flex items-center bg-orange-300 dark:bg-sky-900 text-white font-medium text-[14px] md:text-[14px] h-[28px] md:h-[32px] rounded-[6px] md:rounded-[8px] px-[20px]',
+      'flex items-center bg-orange-300 dark:bg-sky-900 focus:outline-none focus:shadow-outline hover:shadow-outline text-white font-medium text-[14px] md:text-[14px] h-[32px] md:h-[48px] rounded-[6px] md:rounded-[8px] px-[20px]',
       {
         '!bg-orange-300 !text-orange-200 dark:!text-sky-900 dark:!bg-white':
           inverted,

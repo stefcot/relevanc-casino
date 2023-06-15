@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useState,
-  PropsWithChildren,
-  useEffect,
-  useMemo,
-  useCallback,
-} from 'react'
+import React, { FC, useState, PropsWithChildren, useEffect } from 'react'
 import clsx from 'clsx'
 
 import {
@@ -22,55 +15,19 @@ import Switch from '@Components/Switch'
 import Navbar from '@Components/Navbar'
 import Button from '@Components/Button'
 
-import { getAllIdentities, getListMode } from '@Redux/identities/selectors'
+import { getListMode } from '@Redux/identities/selectors'
 
 import SortDropdown from '@Components/SortDropdown'
 
 import IdentitiesProvider from '@Components/IdentitiesProvider'
-import { Identity } from '@Redux/identities/types'
-import { format } from 'date-fns'
+import useIdentities from '@Hooks/useIdentities'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch()
   const listMode = useAppSelector<boolean>(getListMode)
-  const identities = useAppSelector<Identity[]>(getAllIdentities)
   const [darkMode, setDarkMode] = useState(true)
   const [sortMode, setSortMode] = useState<string | undefined>(undefined)
-
-  const sortIdentitiesByBirthDate = useCallback(
-    () =>
-      identities.slice().sort((a, b) => {
-        const aDate = Number(format(new Date(a.birthdate), 'T'))
-        const bDate = Number(format(new Date(b.birthdate), 'T'))
-        return bDate - aDate
-      }),
-    [identities]
-  )
-
-  const sortIdentitiesByName = useCallback(
-    () =>
-      identities.slice().sort((a, b) => {
-        if (a.username < b.username) {
-          return -1
-        }
-        if (a.username > b.username) {
-          return 1
-        }
-        return 0
-      }),
-    [identities]
-  )
-
-  const sortedIdentities = useMemo(() => {
-    switch (sortMode) {
-      case 'name':
-        return [...sortIdentitiesByName()]
-      case 'birthday':
-        return [...sortIdentitiesByBirthDate()]
-      default:
-        return [...identities]
-    }
-  }, [sortMode, identities])
+  const identities = useIdentities(sortMode)
 
   const onMenuItemClick = (id: string) => {
     setSortMode(id)
@@ -98,7 +55,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     >
       <div className="absolute h-screen w-screen overflow-scroll bg-gradient-to-t from-orange-200 to-orange-100 dark:bg-gradient-to-t dark:from-sky-900 dark:to-sky-800 sans">
         <main className="bg-white dark:bg-slate-800 bg-white flex flex-col items-start min-h-screen px-10 py-6 sm:p-14 md:p-16 lg:p-24 sm:m-10 sm:mb-0 sm:rounded-tl-[32px] sm:rounded-tr-[32px] sm:!rounded-bl-0 sm:!rounded-br-0">
-          <Navbar>
+          <Navbar className="!flex-col-reverse md:!flex-row">
             <div className="flex space-x-2 mr-auto">
               <Button
                 onClick={() => {
@@ -115,7 +72,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
                 Add 5 Identities
               </Button>
             </div>
-            <div className="flex space-x-3 justify-between md:justify-normal mr-auto md:mr-0 w-full md:w-auto">
+            <div className="flex space-x-3 justify-between md:justify-normal mr-auto md:mr-0 w-full md:w-auto pb-5 !mb-5 border border-b-slate-200 dark:border-b-slate-600 border-t-0 border-x-0 md:pb-0 md:!mb-0 md:border-0 md:border-b-0">
               <SortDropdown onChange={onMenuItemClick} />
               <div className="flex space-x-3 ml-auto">
                 <Switch
@@ -136,7 +93,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
               </div>
             </div>
           </Navbar>
-          <IdentitiesProvider identities={sortedIdentities}>
+          <IdentitiesProvider identities={identities}>
             {children}
           </IdentitiesProvider>
         </main>

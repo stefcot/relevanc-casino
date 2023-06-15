@@ -19,7 +19,7 @@ const DeleteButton: FC<DeleteButtonProps> = ({
     className={className}
     onClick={() => handleDeleteClick(id)}
   >
-    <BinIcon className="w-[24px] fill-slate-700" />
+    <BinIcon className="w-[16px] md:w-[20px] fill-slate-700" />
   </Button>
 )
 

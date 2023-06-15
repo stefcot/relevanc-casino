@@ -12,7 +12,7 @@ const SortDropdown: FC<SortDropdownProps> = ({ onChange }) => {
   const [sortMode, setSortMode] = useState<string | undefined>(undefined)
 
   const onLabelClick = () => {
-    setOpen(true)
+    setOpen(!open)
   }
 
   const onMenuItemClick: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -29,7 +29,7 @@ const SortDropdown: FC<SortDropdownProps> = ({ onChange }) => {
       <div className="relative min-w-[150px]">
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
         <div
-          className="flex bg-orange-300 dark:bg-sky-900 text-white font-medium text-[14px] h-[28px] md:h-[32px] rounded-md px-[12px] items-center space-x-1 cursor-pointer"
+          className="flex bg-orange-300 dark:bg-sky-900 text-white font-medium text-[14px] h-[32px] md:h-[48px] rounded-md px-[16px] items-center space-x-1 cursor-pointer"
           onClick={onLabelClick}
         >
           <span className="block flex-1 truncate">
@@ -44,7 +44,7 @@ const SortDropdown: FC<SortDropdownProps> = ({ onChange }) => {
           )}
         >
           <ul className="block text-slate-400">
-            <li className="block px-3 py-2 hover:text-slate-500 hover:dark:text-slate-200 border border-b-slate-100 dark:border-b-slate-600 border-r-0 border-t-0 border-l-0">
+            <li className="block px-[16px] h-[32px] md:h-[48px] hover:text-slate-500 hover:dark:text-slate-200 border border-b-slate-100 dark:border-b-slate-600 border-r-0 border-t-0 border-l-0">
               <button
                 id="name"
                 onClick={onMenuItemClick}
@@ -54,7 +54,7 @@ const SortDropdown: FC<SortDropdownProps> = ({ onChange }) => {
                 Name
               </button>
             </li>
-            <li className="block px-3 py-2 hover:text-slate-500 hover:dark:text-slate-200">
+            <li className="block px-[16px] h-[32px] md:h-[48px] hover:text-slate-500 hover:dark:text-slate-200">
               <button
                 id="birthday"
                 onClick={onMenuItemClick}

@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
 import type { Identity } from '@Redux/identities/types'
 import axios from 'axios'
 
@@ -53,8 +53,7 @@ export const fetchIdentity = createAsyncThunk(
 
 export const removeIdentity = createAction(
   'identities/removeIdentity',
-  (state: Identity[], action: PayloadAction<string>) => {
-    const { payload } = action
-    return { payload }
-  }
+  (id: string) => ({
+    payload: id,
+  })
 )

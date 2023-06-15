@@ -18,7 +18,11 @@ const Identities: FC = () => {
       )}
     >
       {identities.map((identity) => (
-        <IdentityCard key={identity.id} identity={identity} />
+        <IdentityCard
+          key={identity.id}
+          identity={identity}
+          listMode={listMode}
+        />
       ))}
     </div>
   )

@@ -8,6 +8,6 @@ export type Identity = {
 
 export type IdentityState = {
   identities: Identity[]
-  status: 'loading' | 'failed' | 'success'
+  disabled: 'loading' | 'failed' | 'success'
   listMode: boolean
 }

@@ -4,20 +4,20 @@ import type { Identity, IdentityState } from '@Redux/identities/types'
 
 const initialState: IdentityState = {
   identities: [],
-  status: 'loading',
+  disabled: 'loading',
   listMode: false,
 }
 
 const identitiesReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchIdentity.pending, (state) => {
-      state.status = 'loading'
+      state.disabled = 'loading'
     })
     .addCase(fetchIdentity.fulfilled, (state: Draft<IdentityState>) => {
-      state.status = 'success'
+      state.disabled = 'success'
     })
     .addCase(fetchIdentity.rejected, (state: Draft<IdentityState>) => {
-      state.status = 'failed'
+      state.disabled = 'failed'
     })
     .addCase(
       'identities/setListMode',
