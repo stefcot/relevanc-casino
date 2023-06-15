@@ -1,6 +1,7 @@
 import { Action, createReducer, Draft } from '@reduxjs/toolkit'
 import { fetchIdentities, fetchIdentity } from '@Redux/identities/actions'
 import type { Identity, IdentityState } from '@Redux/identities/types'
+import { sortIdentities } from '@Helpers/sorting'
 
 const initialState: IdentityState = {
   identities: [],
@@ -37,17 +38,6 @@ const identitiesReducer = createReducer(initialState, (builder) => {
       )
     })
     .addCase(
-      'identities/setListMode',
-      (
-        state: Draft<IdentityState>,
-        action: Action<'identities/setListMode'> & {
-          payload: { listMode: boolean }
-        }
-      ) => {
-        state.listMode = action.payload.listMode
-      }
-    )
-    .addCase(
       'identities/addIdentities',
       (
         state: Draft<IdentityState>,
@@ -56,6 +46,7 @@ const identitiesReducer = createReducer(initialState, (builder) => {
         }
       ) => {
         state.identities = [...state.identities, ...action.payload.identities]
+        state.identities = sortIdentities(state.identities, state.sortMode)
       }
     )
     .addCase(
@@ -67,6 +58,27 @@ const identitiesReducer = createReducer(initialState, (builder) => {
         state.identities = state.identities.filter(
           (m) => m.id !== action.payload
         )
+      }
+    )
+    .addCase(
+      'identities/setListMode',
+      (
+        state: Draft<IdentityState>,
+        action: Action<'identities/setListMode'> & {
+          payload: { listMode: boolean }
+        }
+      ) => {
+        state.listMode = action.payload.listMode
+      }
+    )
+    .addCase(
+      'identities/setSortMode',
+      (
+        state: Draft<IdentityState>,
+        action: Action<'identities/setSortMode'> & { payload: string }
+      ) => {
+        state.sortMode = action.payload
+        state.identities = sortIdentities(state.identities, state.sortMode)
       }
     )
 })

@@ -10,4 +10,5 @@ export type IdentityState = {
   identities: Identity[]
   pendingFetches: string[]
   listMode: boolean
+  sortMode?: string
 }

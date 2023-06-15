@@ -5,7 +5,7 @@ import { persistReducer, persistStore } from 'redux-persist'
 import thunk from 'redux-thunk'
 
 const persistConfig = {
-  key: 'casino',
+  key: 'app:relevanc',
   storage,
 }
 

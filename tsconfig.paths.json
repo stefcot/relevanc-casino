@@ -5,6 +5,7 @@
       "@/*": ["src/*"],
       "@Components/*": ["src/components/*"],
       "@Types/*": ["src/types/*"],
+      "@Helpers/*": ["src/helpers/*"],
       "@Hooks/*": ["src/hooks/*"],
       "@Styles/*": ["src/styles/*"],
       "@Redux/*": ["src/redux/*"],

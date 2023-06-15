@@ -1,13 +1,12 @@
 import React, { FC } from 'react'
 
 import IdentityCard from '@Components/IdentityCard'
-import { useIdentitiesContext } from '@Components/IdentitiesProvider/IdentitiesProvider'
 import { useAppSelector } from '@Redux/hooks'
-import { getListMode } from '@Redux/identities/selectors'
+import { getIdentities, getListMode } from '@Redux/identities/selectors'
 import clsx from 'clsx'
 
 const Identities: FC = () => {
-  const identities = useIdentitiesContext()
+  const identities = useAppSelector(getIdentities)
   const listMode = useAppSelector(getListMode)
 
   return (

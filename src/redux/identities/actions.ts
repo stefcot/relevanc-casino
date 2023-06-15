@@ -57,3 +57,10 @@ export const removeIdentity = createAction(
     payload: id,
   })
 )
+
+export const setSortMode = createAction(
+  'identities/setSortMode',
+  (sortMode: string) => ({
+    payload: sortMode,
+  })
+)

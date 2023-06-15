@@ -5,11 +5,11 @@ import clsx from 'clsx'
 
 export type SortDropdownProps = {
   onChange: (id: string) => void
+  selected?: string
 }
 
-const SortDropdown: FC<SortDropdownProps> = ({ onChange }) => {
+const SortDropdown: FC<SortDropdownProps> = ({ onChange, selected }) => {
   const [open, setOpen] = useState(false)
-  const [sortMode, setSortMode] = useState<string | undefined>(undefined)
 
   const onLabelClick = () => {
     setOpen(!open)
@@ -17,7 +17,6 @@ const SortDropdown: FC<SortDropdownProps> = ({ onChange }) => {
 
   const onMenuItemClick: MouseEventHandler<HTMLButtonElement> = (e) => {
     setOpen(false)
-    setSortMode(e.currentTarget.id)
     onChange?.(e.currentTarget.id)
   }
   const handleClickAway = () => {
@@ -33,7 +32,7 @@ const SortDropdown: FC<SortDropdownProps> = ({ onChange }) => {
           onClick={onLabelClick}
         >
           <span className="block flex-1 truncate">
-            Sort by{sortMode && <span> {sortMode}</span>}
+            Sort by{selected && <span> {selected}</span>}
           </span>
           <SunIcon className="w-5" />
         </div>
